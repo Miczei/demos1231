@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<base href="/tlumaczenia/">
+<title>Wycena tłumaczeń przysięgłych</title>
+<meta name="description" content="Demo Couders dla biur tłumaczeń: wycena tłumaczenia przysięgłego ze skanu w kilka sekund, z terminem i zamówieniem.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#233a80">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23233a80'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='40' text-anchor='middle' fill='white'%3EC%3C/text%3E%3C/svg%3E">
+<style>
+@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/ibm-plex-sans-latin-ext-400-normal.woff2) format('woff2'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/ibm-plex-sans-latin-400-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/ibm-plex-sans-latin-ext-500-normal.woff2) format('woff2'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/ibm-plex-sans-latin-500-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/ibm-plex-sans-latin-ext-600-normal.woff2) format('woff2'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/ibm-plex-sans-latin-600-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: 'IBM Plex Serif'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/ibm-plex-serif-latin-ext-500-normal.woff2) format('woff2'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: 'IBM Plex Serif'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/ibm-plex-serif-latin-500-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: 'IBM Plex Serif'; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/ibm-plex-serif-latin-ext-600-normal.woff2) format('woff2'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: 'IBM Plex Serif'; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/ibm-plex-serif-latin-600-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/ibm-plex-mono-latin-ext-400-normal.woff2) format('woff2'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/ibm-plex-mono-latin-400-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/ibm-plex-mono-latin-ext-500-normal.woff2) format('woff2'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/ibm-plex-mono-latin-500-normal.woff2) format('woff2'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); color-scheme: light; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+footer a { color: inherit; }
+</style>
+<style>
+/* Układ: narzędzie w dwóch kolumnach (kroki po lewej, wycena po prawej), panel biura jako druga zakładka. Atrament i czerwień pieczęci. */
+:root {
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --surface-2: #eceff7;
+  --fg: #151b2f;
+  --muted: #586181;
+  --line: #d7dcea;
+  --ink: #233a80;
+  --ink-strong: #182b63;
+  --ink-weak: #e2e7f5;
+  --on-ink: #ffffff;
+  --seal: #b5332b;
+  --ok: #1d7448;
+  --ok-bg: #dff2e7;
+  --warn: #85560a;
+  --warn-bg: #fbefd3;
+  --shadow: 0 1px 2px rgba(21, 27, 47, .06), 0 8px 28px rgba(21, 27, 47, .07);
+  --font-display: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-data: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1322; --surface: #151b2e; --surface-2: #1c2440; --fg: #e7eaf4; --muted: #9ba4c4; --line: #2a3354;
+    --ink: #92aaff; --ink-strong: #b4c4ff; --ink-weak: #222c51; --on-ink: #0e1322; --seal: #ff8577;
+    --ok: #74d6a4; --ok-bg: #153a29; --warn: #f1c46e; --warn-bg: #3a2e13;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 28px rgba(0,0,0,.35); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1322; --surface: #151b2e; --surface-2: #1c2440; --fg: #e7eaf4; --muted: #9ba4c4; --line: #2a3354;
+  --ink: #92aaff; --ink-strong: #b4c4ff; --ink-weak: #222c51; --on-ink: #0e1322; --seal: #ff8577;
+  --ok: #74d6a4; --ok-bg: #153a29; --warn: #f1c46e; --warn-bg: #3a2e13;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 28px rgba(0,0,0,.35); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1140px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-wrap: balance; margin: 0; color: var(--fg); }
+h1 { font-size: clamp(1.6rem, 1.1rem + 1.6vw, 2.25rem); line-height: 1.15; }
+h2 { font-size: 1.15rem; }
+p { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.num, .mono { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+
+/* Pasek górny */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); }
+.top-in { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 10px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+.brand .mark { width: 28px; height: 28px; border-radius: 7px; background: var(--ink); color: var(--on-ink); display: grid; place-items: center; font-family: var(--font-display); font-size: 16px; }
+.brand .tag { font-weight: 500; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; }
+.tabs { display: flex; gap: 4px; background: var(--surface-2); border-radius: 999px; padding: 4px; }
+.tabs button { border: 0; background: transparent; padding: 7px 14px; border-radius: 999px; cursor: pointer; font-weight: 500; color: var(--muted); display: inline-flex; align-items: center; gap: 8px; }
+.tabs button[aria-selected="true"] { background: var(--surface); color: var(--fg); box-shadow: var(--shadow); }
+.badge { font-family: var(--font-data); font-size: 12px; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--ink); color: var(--on-ink); display: inline-grid; place-items: center; }
+
+/* Wstęp */
+.banner { background: var(--ink-weak); color: var(--ink-strong); border-radius: var(--radius); padding: 10px 14px; font-size: 14px; }
+.intro { display: grid; gap: 10px; padding-block: 26px 18px; max-width: 760px; }
+.lead { color: var(--muted); font-size: 16px; max-width: 65ch; }
+.privacy { display: flex; gap: 8px; align-items: center; font-size: 14px; color: var(--ok); }
+.privacy svg { flex: none; }
+
+.grid { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); gap: 20px; align-items: start; padding-bottom: 32px; }
+@media (max-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+.col-main { display: grid; gap: 16px; min-width: 0; }
+.col-side { display: grid; gap: 16px; min-width: 0; position: sticky; top: 76px; }
+@media (max-width: 900px) { .col-side { position: static; } }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; display: grid; gap: 14px; min-width: 0; }
+.step-h { display: flex; align-items: center; gap: 10px; }
+.step-h .n { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--ink); color: var(--ink); display: grid; place-items: center; font-family: var(--font-data); font-size: 13px; font-weight: 500; flex: none; }
+
+/* Wgrywanie */
+.drop { display: grid; place-items: center; gap: 6px; text-align: center; border: 1.5px dashed var(--line); border-radius: var(--radius); padding: 26px 16px; cursor: pointer; background: var(--surface-2); transition: border-color .15s, background .15s; }
+.drop:hover, .drop.over { border-color: var(--ink); background: var(--ink-weak); }
+.drop strong { font-weight: 600; }
+.drop small { color: var(--muted); }
+.samples { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.samples .lbl { width: 100%; font-size: 13px; color: var(--muted); }
+.chip { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; cursor: pointer; font-size: 14px; }
+.chip:hover { border-color: var(--ink); }
+.chip[aria-pressed="true"] { border-color: var(--ink); background: var(--ink-weak); color: var(--ink-strong); }
+.row { display: flex; gap: 12px; flex-wrap: wrap; align-items: end; }
+.field { display: grid; gap: 6px; min-width: 0; flex: 1 1 200px; }
+.field > label, .field > .lab { font-size: 13px; font-weight: 500; color: var(--muted); }
+select, input[type="text"], input[type="email"], input[type="number"], textarea { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 9px 11px; }
+textarea { min-height: 110px; resize: vertical; }
+details > summary { cursor: pointer; color: var(--ink); font-weight: 500; }
+details[open] > summary { margin-bottom: 10px; }
+.btn { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 9px 14px; cursor: pointer; font-weight: 500; }
+.btn:hover { border-color: var(--ink); }
+.btn-primary { background: var(--ink); border-color: var(--ink); color: var(--on-ink); font-weight: 600; padding: 12px 16px; width: 100%; font-size: 16px; }
+.btn-primary:hover { background: var(--ink-strong); border-color: var(--ink-strong); }
+.btn-primary:disabled { opacity: .55; cursor: not-allowed; }
+
+/* Przełączniki */
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label { border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; cursor: pointer; background: var(--surface); font-size: 14px; }
+.seg input:checked + label { border-color: var(--ink); background: var(--ink-weak); color: var(--ink-strong); font-weight: 500; }
+.seg input:focus-visible + label { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* Podgląd dokumentu */
+.docview { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 14px; align-items: start; }
+.thumb { width: 96px; aspect-ratio: 210 / 297; max-width: 100%; border: 1px solid var(--line); border-radius: 4px; background: #fff; object-fit: cover; }
+.docinfo { display: grid; gap: 8px; min-width: 0; }
+.docname { font-weight: 600; overflow-wrap: anywhere; }
+.status { font-size: 14px; color: var(--muted); }
+.bar { height: 6px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+.bar > i { display: block; height: 100%; width: 0; background: var(--ink); transition: width .2s; }
+.facts { display: flex; flex-wrap: wrap; gap: 6px; }
+.fact { font-size: 13px; background: var(--surface-2); border-radius: 6px; padding: 3px 8px; }
+.fact b { font-weight: 600; }
+.ocrtext { font-family: var(--font-data); font-size: 12.5px; white-space: pre-wrap; background: var(--surface-2); border-radius: 8px; padding: 10px; max-height: 220px; overflow: auto; overflow-wrap: anywhere; }
+.note { font-size: 13px; color: var(--muted); }
+.alert { font-size: 14px; border-radius: 8px; padding: 9px 12px; background: var(--warn-bg); color: var(--warn); }
+
+/* Wycena */
+.quote { position: relative; }
+#quoteBody { display: grid; gap: 12px; }
+.quote .empty { color: var(--muted); display: grid; gap: 8px; padding-block: 6px; }
+.quote-h { display: grid; gap: 4px; padding-right: 92px; min-height: 64px; }
+.quote-h .kicker { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.quote-h h2 { font-size: 1.25rem; }
+.stamp { position: absolute; top: 12px; right: 12px; width: 84px; height: 84px; color: var(--seal); transform: rotate(-12deg); opacity: .9; }
+.lines { width: 100%; border-collapse: collapse; font-size: 14px; }
+.lines td { padding: 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.lines td:last-child { text-align: right; white-space: nowrap; font-family: var(--font-data); font-variant-numeric: tabular-nums; padding-left: 12px; }
+.lines tr.sum td { border-bottom: 0; padding-top: 12px; font-weight: 600; font-size: 18px; }
+.lines tr.sum td:first-child { font-family: var(--font-body); }
+.deadline { display: flex; gap: 10px; align-items: center; background: var(--ok-bg); color: var(--ok); border-radius: 8px; padding: 10px 12px; }
+.deadline strong { font-weight: 600; }
+.pay { display: grid; gap: 12px; }
+.blik { font-family: var(--font-data); font-size: 22px; letter-spacing: .35em; text-align: center; }
+.success { display: grid; gap: 10px; }
+.success .ok { color: var(--ok); font-weight: 600; }
+.how { font-size: 14px; color: var(--muted); display: grid; gap: 8px; }
+.how h3 { font-size: 1rem; color: var(--fg); }
+
+/* Panel biura */
+.office-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 20px; align-items: start; padding-bottom: 32px; }
+@media (max-width: 960px) { .office-grid { grid-template-columns: minmax(0, 1fr); } }
+.orders { display: grid; gap: 12px; min-width: 0; }
+.order { display: grid; gap: 10px; }
+.order-top { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: baseline; }
+.order-id { font-family: var(--font-data); font-size: 13px; color: var(--muted); }
+.order h3 { font-size: 1.05rem; }
+.pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.pill { font-size: 12px; font-weight: 600; letter-spacing: .02em; border-radius: 999px; padding: 3px 9px; background: var(--surface-2); color: var(--muted); }
+.pill.paid { background: var(--ok-bg); color: var(--ok); }
+.pill.work { background: var(--warn-bg); color: var(--warn); }
+.pill.done { background: var(--ink-weak); color: var(--ink-strong); }
+.pill.example { border: 1px dashed var(--line); background: transparent; }
+.kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px 14px; font-size: 14px; }
+.kv div { display: grid; gap: 2px; min-width: 0; align-content: start; }
+.kv span { font-size: 12px; color: var(--muted); }
+.kv b { font-weight: 500; overflow-wrap: anywhere; }
+.order-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.price-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.price-table th { text-align: left; font-size: 12px; font-weight: 500; color: var(--muted); padding: 6px 4px; border-bottom: 1px solid var(--line); }
+.price-table td { padding: 6px 4px; border-bottom: 1px solid var(--line); }
+.price-table input { padding: 6px 8px; text-align: right; font-family: var(--font-data); }
+.price-wrap { overflow-x: auto; }
+.cfg { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.cfg .field { align-content: end; }
+footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+footer .wrap { padding-block: 18px 26px; display: grid; gap: 4px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <div class="brand"><span class="mark" aria-hidden="true">C</span>Couders <span class="tag">wersja demonstracyjna</span></div>
+    <nav class="tabs" role="tablist" aria-label="Widok">
+      <button role="tab" id="tab-client" aria-selected="true" aria-controls="view-client">Klient</button>
+      <button role="tab" id="tab-office" aria-selected="false" aria-controls="view-office">Panel biura <span class="badge" id="ordersBadge">0</span></button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="view-client" role="tabpanel" aria-labelledby="tab-client">
+    <div class="wrap">
+      <div class="intro">
+        <p class="banner">Demo dla biur tłumaczeń. Zakładka „Klient” pokazuje, co widzi klient biura. „Panel biura” pokazuje, co trafia do Was po opłaceniu zlecenia.</p>
+        <h1>Wycena tłumaczenia przysięgłego w minutę</h1>
+        <p class="lead">Wgraj skan albo zdjęcie dokumentu. System odczyta tekst, policzy strony rozliczeniowe, rozpozna język i rodzaj dokumentu i od razu poda cenę z terminem.</p>
+        <p class="privacy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2" fill="none"/></svg>Dokument nie opuszcza tej przeglądarki. Odczyt tekstu działa na Twoim urządzeniu.</p>
+      </div>
+
+      <div class="grid">
+        <div class="col-main">
+          <div class="card">
+            <div class="step-h"><span class="n">1</span><h2>Dokument</h2></div>
+            <label class="drop" id="drop" for="file">
+              <strong>Przeciągnij plik tutaj albo kliknij, żeby go wybrać</strong>
+              <small>Zdjęcie z telefonu, skan JPG lub PNG albo PDF</small>
+            </label>
+            <input type="file" id="file" accept="image/*,application/pdf" hidden>
+            <div class="samples" id="samples">
+              <span class="lbl">Albo sprawdź na przykładowym dokumencie (dane fikcyjne):</span>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="srcHint">Alfabet dokumentu</label>
+                <select id="srcHint">
+                  <option value="latin">Łaciński (polski, niemiecki, angielski)</option>
+                  <option value="cyr">Cyrylica (ukraiński)</option>
+                </select>
+              </div>
+            </div>
+            <details id="pasteBox">
+              <summary>Wolisz wkleić tekst dokumentu?</summary>
+              <div style="display:grid;gap:10px">
+                <textarea id="pasteText" placeholder="Wklej tutaj treść dokumentu"></textarea>
+                <button class="btn" id="pasteBtn" type="button">Policz z wklejonego tekstu</button>
+              </div>
+            </details>
+            <div id="docView" hidden>
+              <div class="docview">
+                <img class="thumb" id="thumb" alt="Podgląd dokumentu">
+                <div class="docinfo">
+                  <div class="docname" id="docName"></div>
+                  <div class="status" id="status" aria-live="polite"></div>
+                  <div class="bar" id="bar" hidden><i id="barFill"></i></div>
+                  <div class="facts" id="facts"></div>
+                  <div class="alert" id="ocrAlert" hidden></div>
+                  <details id="textBox" hidden>
+                    <summary>Pokaż odczytany tekst</summary>
+                    <div class="ocrtext" id="ocrText"></div>
+                  </details>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="step-h"><span class="n">2</span><h2>Szczegóły tłumaczenia</h2></div>
+            <div class="row">
+              <div class="field">
+                <label for="docType">Rodzaj dokumentu</label>
+                <select id="docType"></select>
+              </div>
+              <div class="field">
+                <label for="srcLang">Język dokumentu</label>
+                <select id="srcLang"></select>
+              </div>
+              <div class="field">
+                <label for="tgtLang">Tłumaczenie na</label>
+                <select id="tgtLang"></select>
+              </div>
+            </div>
+            <p class="note" id="detectNote">Po wgraniu dokumentu rodzaj i język uzupełnią się same. Możesz je poprawić.</p>
+            <div class="field">
+              <span class="lab" id="kindLab">Rodzaj tłumaczenia</span>
+              <div class="seg" role="radiogroup" aria-labelledby="kindLab">
+                <input type="radio" name="kind" id="kind-sworn" value="sworn" checked><label for="kind-sworn">Przysięgłe</label>
+                <input type="radio" name="kind" id="kind-regular" value="regular"><label for="kind-regular">Zwykłe</label>
+              </div>
+            </div>
+            <div class="field">
+              <span class="lab" id="modeLab">Termin</span>
+              <div class="seg" role="radiogroup" aria-labelledby="modeLab">
+                <input type="radio" name="mode" id="mode-standard" value="standard" checked><label for="mode-standard">Standardowy</label>
+                <input type="radio" name="mode" id="mode-express" value="express"><label for="mode-express">Ekspresowy</label>
+              </div>
+            </div>
+            <div class="field">
+              <span class="lab" id="delLab">Odbiór</span>
+              <div class="seg" role="radiogroup" aria-labelledby="delLab">
+                <input type="radio" name="delivery" id="del-pdf" value="pdf" checked><label for="del-pdf">PDF z podpisem kwalifikowanym</label>
+                <input type="radio" name="delivery" id="del-paper" value="paper"><label for="del-paper">Wersja papierowa kurierem</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="col-side">
+          <div class="card quote" id="quoteCard" aria-live="polite">
+            <div id="quoteEmpty" class="empty">
+              <h2>Tu pojawi się wycena</h2>
+              <p>Wgraj dokument albo wybierz przykład. Cena i termin policzą się od razu, według cennika biura.</p>
+            </div>
+            <div id="quoteBody" hidden>
+              <svg class="stamp" viewBox="0 0 100 100" aria-hidden="true">
+                <defs><path id="circ" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs>
+                <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="2.2"/>
+                <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <text font-family="IBM Plex Mono, monospace" font-size="9.6" letter-spacing="1.2" fill="currentColor"><textPath href="#circ">WYCENA GOTOWA · COUDERS DEMO ·</textPath></text>
+                <text x="50" y="55" text-anchor="middle" font-family="IBM Plex Serif, Georgia, serif" font-size="15" font-weight="600" fill="currentColor">OK</text>
+              </svg>
+              <div class="quote-h">
+                <span class="kicker" id="qKicker">Wycena</span>
+                <h2 id="qTitle"></h2>
+                <span class="note" id="qPair"></span>
+              </div>
+              <div id="qIndividual" class="alert" hidden></div>
+              <table class="lines" id="qLines"></table>
+              <div class="deadline" id="qDeadline"></div>
+              <p class="note" id="qCountNote"></p>
+
+              <form id="orderForm" class="pay" novalidate>
+                <div class="field">
+                  <label for="email">E-mail, na który przyjdzie tłumaczenie</label>
+                  <input type="email" id="email" autocomplete="email" placeholder="imie@przyklad.pl">
+                </div>
+                <p class="alert" id="emailErr" hidden>Wpisz poprawny adres e-mail, żeby złożyć zamówienie.</p>
+                <button class="btn-primary" id="orderBtn" type="submit">Zamawiam i płacę</button>
+              </form>
+
+              <form id="payForm" class="pay" hidden novalidate>
+                <h3>Płatność BLIK</h3>
+                <p class="note">To symulacja. W wersji dla biura podpinamy Przelewy24, PayU albo Stripe.</p>
+                <div class="field">
+                  <label for="blik">Kod BLIK (dowolne 6 cyfr)</label>
+                  <input type="text" id="blik" class="blik" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="off">
+                </div>
+                <p class="alert" id="blikErr" hidden>Kod BLIK ma 6 cyfr.</p>
+                <button class="btn-primary" id="payBtn" type="submit">Zapłać</button>
+                <button class="btn" id="payBack" type="button">Wróć do wyceny</button>
+              </form>
+
+              <div id="success" class="success" hidden>
+                <p class="ok" id="successTitle"></p>
+                <p id="successText"></p>
+                <button class="btn" id="goOffice" type="button">Zobacz, co trafiło do biura</button>
+                <button class="btn" id="newQuote" type="button">Nowa wycena</button>
+              </div>
+            </div>
+          </div>
+          <div class="card how">
+            <h3>Jak liczymy</h3>
+            <p>Przy tłumaczeniu przysięgłym strona rozliczeniowa to 1125 znaków ze spacjami, a każda rozpoczęta strona liczy się jako pełna. Przy zwykłym liczymy według cennika biura.</p>
+            <p>Wycena z oryginału jest szacunkowa, bo ostateczną liczbę stron liczy się z gotowego tłumaczenia. Termin uwzględnia weekendy i święta.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-office" role="tabpanel" aria-labelledby="tab-office" hidden>
+    <div class="wrap">
+      <div class="intro">
+        <h1>Panel biura</h1>
+        <p class="lead">Tu trafiają opłacone zlecenia z odczytanym tekstem, liczbą stron i terminem. Tłumacz dostaje gotową paczkę, a biuro nie przepisuje danych z maili.</p>
+      </div>
+      <div class="office-grid">
+        <div class="orders" id="orders"></div>
+        <div class="card">
+          <h2>Cennik biura</h2>
+          <p class="note">Przykładowe stawki brutto. Zmiana działa od razu w wycenie klienta.</p>
+          <div class="price-wrap">
+            <table class="price-table">
+              <thead><tr><th>Język</th><th>Przysięgłe, zł za stronę</th><th>Zwykłe, zł za stronę</th></tr></thead>
+              <tbody id="priceRows"></tbody>
+            </table>
+          </div>
+          <div class="cfg">
+            <div class="field"><label for="c-regularChars">Strona tłumaczenia zwykłego, znaki</label><input type="number" id="c-regularChars" min="500" step="100"></div>
+            <div class="field"><label for="c-toForeignPct">Na język obcy, dopłata %</label><input type="number" id="c-toForeignPct" min="0" step="5"></div>
+            <div class="field"><label for="c-expressPct">Ekspres, dopłata %</label><input type="number" id="c-expressPct" min="0" step="5"></div>
+            <div class="field"><label for="c-vehicleFlat">Dokumenty pojazdu, cena stała zł</label><input type="number" id="c-vehicleFlat" min="0" step="1"></div>
+            <div class="field"><label for="c-courier">Kurier, zł</label><input type="number" id="c-courier" min="0" step="1"></div>
+            <div class="field"><label for="c-pagesPerDay">Stron dziennie w trybie standardowym</label><input type="number" id="c-pagesPerDay" min="1" step="1"></div>
+          </div>
+          <button class="btn" id="resetPrices" type="button">Przywróć przykładowy cennik</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Wersja demonstracyjna przygotowana przez <a href="https://couders.com" target="_blank" rel="noopener">Couders</a>. Cennik, terminy i zlecenia przykładowe są fikcyjne.</p>
+    <p>Dokumenty są przetwarzane wyłącznie w tej przeglądarce i nigdzie nie są wysyłane. Strona nie ładuje niczego z zewnętrznych serwerów, a zlecenia z demo zapisują się tylko na tym urządzeniu.</p>
+  </div>
+</footer>
+
+<script src="lib/tesseract.min.js"></script>
+<script src="lib/pdf.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var BASE = document.baseURI;
+  var abs = function (p) { return new URL(p, BASE).href; };
+
+  /* ---------- Dane ---------- */
+  var LANGS = { pl: "polski", en: "angielski", de: "niemiecki", uk: "ukraiński" };
+  var LANGS_GEN = { pl: "polskiego", en: "angielskiego", de: "niemieckiego", uk: "ukraińskiego" };
+  var DOC_TYPES = [
+    { id: "pojazd", name: "Dokumenty pojazdu", re: /zulassungsbescheinigung|fahrzeugschein|fahrzeugbrief|fahrzeug-identifizierungsnummer|dowód rejestracyjny|dowod rejestracyjny|certificate of title|vehicle registration/i },
+    { id: "akt_ur", name: "Akt urodzenia", re: /geburtsurkunde|geburtenregister|akt urodzenia|birth certificate|certificate of birth|свідоцтво про народження|свидетельство о рождении/i },
+    { id: "akt_sl", name: "Akt małżeństwa", re: /eheurkunde|heiratsurkunde|eheregister|akt małżeństwa|marriage certificate|certificate of marriage|свідоцтво про шлюб/i },
+    { id: "akt_zg", name: "Akt zgonu", re: /sterbeurkunde|akt zgonu|death certificate|certificate of death|свідоцтво про смерть/i },
+    { id: "dyplom", name: "Dyplom lub świadectwo", re: /diploma|degree of|bachelor|master of|zeugnis|dyplom|świadectwo|transcript of records|диплом|атестат/i },
+    { id: "prawo_jazdy", name: "Prawo jazdy", re: /führerschein|fuhrerschein|prawo jazdy|driving licen[cs]e|посвідчення водія/i },
+    { id: "pelnomocnictwo", name: "Pełnomocnictwo", re: /vollmacht|pełnomocnictwo|power of attorney|довіреність/i },
+    { id: "wyrok", name: "Wyrok lub postanowienie sądu", re: /\burteil\b|beschluss|wyrok|postanowienie|judgment|judgement|рішення суду/i },
+    { id: "umowa", name: "Umowa", re: /vertrag|umowa|agreement|contract|договір/i },
+    { id: "zaswiadczenie", name: "Zaświadczenie", re: /bescheinigung|zaświadczenie|certificate|довідка/i }
+  ];
+  var OTHER = { id: "inny", name: "Inny dokument" };
+  var DEFAULT_PRICES = {
+    sworn: { en: 59, de: 59, uk: 55 },
+    regular: { en: 45, de: 49, uk: 45 },
+    regularChars: 1500, toForeignPct: 20, expressPct: 50, vehicleFlat: 119, courier: 20, pagesPerDay: 5, expressCutoff: 14
+  };
+
+  var SAMPLES = {
+    geburt: { label: "Akt urodzenia (niemiecki)", script: "latin", name: "Geburtsurkunde_przyklad.jpg",
+      header: "Standesamt Musterstadt", title: "Geburtsurkunde", subtitle: "(Auszug aus dem Geburtenregister)",
+      rows: [["Familienname", "Mustermann"], ["Vornamen", "Erika Anna"], ["Geschlecht", "weiblich"], ["Tag der Geburt", "12. März 1994"], ["Ort der Geburt", "Musterstadt"], ["Mutter", "Maria Mustermann, geb. Beispiel"], ["Vater", "Max Mustermann"], ["Registernummer", "G 1234/1994"]],
+      foot: ["Musterstadt, den 4. Juni 2026", "Der Standesbeamte"], mark: "MUSTER" },
+    kfz: { label: "Dowód rejestracyjny (niemiecki)", script: "latin", name: "Zulassungsbescheinigung_przyklad.jpg",
+      header: "Bundesrepublik Deutschland", title: "Zulassungsbescheinigung Teil I", subtitle: "(Fahrzeugschein)",
+      rows: [["Amtliches Kennzeichen", "MS-XY 1234"], ["Halter", "Mustermann, Max"], ["Anschrift", "Musterstraße 1, 12345 Musterstadt"], ["Fahrzeug-Identifizierungsnummer", "WVWZZZ1KZ9W000000"], ["Marke", "VOLKSWAGEN"], ["Handelsbezeichnung", "GOLF"], ["Datum der Erstzulassung", "15.05.2018"], ["Hubraum", "1498 cm³"], ["Nennleistung", "110 kW"], ["Kraftstoff", "Benzin"], ["Farbe", "Grau"]],
+      foot: ["Zulassungsbehörde Musterstadt"], mark: "MUSTER" },
+    diploma: { label: "Dyplom (angielski)", script: "latin", name: "Diploma_sample.jpg", center: true,
+      header: "University of Exampleton", title: "Bachelor of Science", subtitle: "",
+      lines: ["This is to certify that", "JOHN SAMPLE", "having completed the approved programme of study", "has been awarded the degree of", "Bachelor of Science in Civil Engineering", "with Upper Second Class Honours", "Given under the seal of the University", "on the thirtieth day of June 2025"],
+      foot: ["Vice-Chancellor", "Registrar"], mark: "SPECIMEN" },
+    ua: { label: "Akt urodzenia (ukraiński)", script: "cyr", name: "Svidotstvo_zrazok.jpg",
+      header: "Україна", title: "Свідоцтво про народження", subtitle: "",
+      rows: [["Прізвище", "Зразкова"], ["Ім’я", "Олена"], ["По батькові", "Петрівна"], ["Дата народження", "12 березня 2001 року"], ["Місце народження", "місто Зразків"], ["Батько", "Зразковий Петро Іванович"], ["Мати", "Зразкова Марія Василівна"], ["Актовий запис", "№ 1234"]],
+      foot: ["Відділ державної реєстрації актів цивільного стану"], mark: "ЗРАЗОК" }
+  };
+
+  /* ---------- Pamięć przeglądarki ---------- */
+  function load(key, fallback) { try { var v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; } }
+  function save(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) { /* bez zapisu */ } }
+  var prices = Object.assign({}, DEFAULT_PRICES, load("couders-demo-cennik-v1", {}));
+  prices.sworn = Object.assign({}, DEFAULT_PRICES.sworn, prices.sworn);
+  prices.regular = Object.assign({}, DEFAULT_PRICES.regular, prices.regular);
+
+  /* ---------- Święta i dni robocze ---------- */
+  function easter(y) {
+    var a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3),
+      h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451),
+      month = Math.floor((h + l - 7 * m + 114) / 31), day = ((h + l - 7 * m + 114) % 31) + 1;
+    return new Date(y, month - 1, day);
+  }
+  var holidayCache = {};
+  function holidays(y) {
+    if (holidayCache[y]) return holidayCache[y];
+    var set = {};
+    var add = function (d) { set[d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate()] = true; };
+    [[0, 1], [0, 6], [4, 1], [4, 3], [7, 15], [10, 1], [10, 11], [11, 25], [11, 26]].forEach(function (md) { add(new Date(y, md[0], md[1])); });
+    if (y >= 2025) add(new Date(y, 11, 24));
+    var ea = easter(y);
+    [0, 1, 49, 60].forEach(function (off) { var d = new Date(ea); d.setDate(d.getDate() + off); add(d); });
+    holidayCache[y] = set;
+    return set;
+  }
+  function isWorkingDay(d) { var wd = d.getDay(); if (wd === 0 || wd === 6) return false; return !holidays(d.getFullYear())[d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate()]; }
+  function nextWorkingDay(d) { var x = new Date(d); do { x.setDate(x.getDate() + 1); } while (!isWorkingDay(x)); return x; }
+  var fmtDay = new Intl.DateTimeFormat("pl-PL", { weekday: "long", day: "numeric", month: "long" });
+  var fmtStamp = new Intl.DateTimeFormat("pl-PL", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+
+  function computeDeadline(now, pages, opts) {
+    var day, time;
+    if (opts.mode === "express") {
+      if (isWorkingDay(now) && now.getHours() < prices.expressCutoff && pages <= 3) { day = new Date(now); time = "do 18:00"; }
+      else { day = nextWorkingDay(now); time = "do 12:00"; }
+      var extra = Math.max(0, Math.ceil(pages / (prices.pagesPerDay * 2)) - 1);
+      for (var i = 0; i < extra; i++) day = nextWorkingDay(day);
+    } else {
+      var need = Math.max(1, Math.ceil(pages / prices.pagesPerDay));
+      day = new Date(now);
+      for (var j = 0; j < need; j++) day = nextWorkingDay(day);
+      time = "do 16:00";
+    }
+    if (opts.delivery === "paper") { day = nextWorkingDay(day); time = "doręczenie kurierem"; }
+    var today = new Date(now); today.setHours(0, 0, 0, 0);
+    var dd = new Date(day); dd.setHours(0, 0, 0, 0);
+    var label = (dd.getTime() === today.getTime() ? "dziś, " : "") + fmtDay.format(day);
+    return { iso: day.toISOString(), label: label, time: time };
+  }
+
+  /* ---------- Rozpoznawanie ---------- */
+  function cleanText(t) { return (t || "").replace(/[\u0000-\u0008\u000B-\u001F]/g, " ").replace(/\s+/g, " ").trim(); }
+  function countChars(t) { return Array.from(cleanText(t)).length; }
+  function detectType(t) {
+    for (var i = 0; i < DOC_TYPES.length; i++) if (DOC_TYPES[i].re.test(t)) return DOC_TYPES[i];
+    return OTHER;
+  }
+  function detectLang(t) {
+    var letters = (t.match(/\p{L}/gu) || []).length || 1;
+    var cyr = (t.match(/[\u0400-\u04FF]/g) || []).length;
+    if (cyr / letters > 0.3) return "uk";
+    var words = t.toLowerCase().replace(/[^\p{L}\s-]/gu, " ").split(/[\s-]+/).filter(function (w) { return w.length > 1; });
+    var has = function (list) { var set = {}; list.forEach(function (w) { set[w] = true; }); return words.filter(function (w) { return set[w]; }).length; };
+    var ends = function (re) { return words.filter(function (w) { return w.length > 5 && re.test(w); }).length; };
+    var score = {
+      de: has(["und", "der", "die", "das", "des", "den", "dem", "ist", "nicht", "mit", "von", "vom", "für", "bis", "bei", "uns", "wird", "hiermit", "geb", "am", "im", "teil"]) +
+        3 * (t.match(/[äöüß]/gi) || []).length + ends(/(ung|heit|keit|schaft|lich|isch|amt|stadt|straße)$/),
+      en: has(["the", "and", "of", "to", "that", "has", "been", "with", "this", "on", "for", "was", "were", "is", "by", "certify", "awarded", "university"]) +
+        ends(/(tion|ment|ness|ship|ity)$/),
+      pl: has(["jest", "się", "oraz", "dnia", "roku", "przez", "który", "która", "które", "nie", "na", "do", "że", "od", "po", "dla", "jako", "został", "została", "urodzenia", "zaświadcza"]) +
+        3 * (t.match(/[ąćęłńśźż]/gi) || []).length + ends(/(ość|ego|ych|cja|cji|ania|enie)$/)
+    };
+    var best = "en", bestScore = -1;
+    ["de", "en", "pl"].forEach(function (k) { if (score[k] > bestScore) { best = k; bestScore = score[k]; } });
+    return best;
+  }
+
+  /* ---------- OCR ---------- */
+  var ocr = { worker: null, langs: null, failed: false, busy: false };
+  function withTimeout(p, ms) {
+    return new Promise(function (res, rej) {
+      var t = setTimeout(function () { rej(new Error("timeout")); }, ms);
+      p.then(function (v) { clearTimeout(t); res(v); }, function (e) { clearTimeout(t); rej(e); });
+    });
+  }
+  var STATUS = {
+    "loading tesseract core": "Ładowanie silnika odczytu",
+    "loading language traineddata": "Ładowanie danych językowych",
+    "initializing api": "Uruchamianie odczytu",
+    "initializing tesseract": "Uruchamianie odczytu",
+    "recognizing text": "Odczytywanie tekstu"
+  };
+  function onOcrProgress(m) {
+    if (!m || !m.status) return;
+    var label = STATUS[m.status] || "Przygotowanie";
+    var p = typeof m.progress === "number" ? m.progress : 0;
+    setProgress(label, m.status === "recognizing text" ? p : null);
+  }
+  function getWorker(langs) {
+    if (ocr.failed || typeof window.Tesseract === "undefined") return Promise.reject(new Error("ocr-unavailable"));
+    if (ocr.worker && ocr.langs === langs) return Promise.resolve(ocr.worker);
+    if (ocr.worker) {
+      return withTimeout(ocr.worker.reinitialize(langs, 1), 90000).then(function () { ocr.langs = langs; return ocr.worker; });
+    }
+    var created = window.Tesseract.createWorker(langs, 1, {
+      workerPath: abs("lib/ocr-worker.js"),
+      corePath: abs("lib/core/"),
+      langPath: abs("tessdata"),
+      workerBlobURL: false,
+      cacheMethod: "none",
+      gzip: true,
+      logger: onOcrProgress,
+      errorHandler: function (e) { console.warn("OCR", e); }
+    });
+    return withTimeout(created, 120000).then(function (w) { ocr.worker = w; ocr.langs = langs; return w; });
+  }
+  function ocrImage(source, script) {
+    var langs = script === "cyr" ? "ukr" : "pol+deu+eng";
+    return getWorker(langs).then(function (w) { return w.recognize(source); }).then(function (r) {
+      return { text: r.data.text || "", conf: r.data.confidence };
+    });
+  }
+
+  /* ---------- Rysowanie przykładowych dokumentów ---------- */
+  function drawSample(s) {
+    var W = 1240, H = 1754, c = document.createElement("canvas");
+    c.width = W; c.height = H;
+    var g = c.getContext("2d");
+    g.fillStyle = "#ffffff"; g.fillRect(0, 0, W, H);
+    g.strokeStyle = "#9aa3b8"; g.lineWidth = 3; g.strokeRect(60, 60, W - 120, H - 120);
+    g.fillStyle = "#1b2133"; g.textBaseline = "alphabetic";
+    var y = 180;
+    g.textAlign = "center";
+    g.font = "500 40px Georgia, 'Times New Roman', serif"; g.fillText(s.header, W / 2, y); y += 110;
+    g.font = "700 64px Georgia, 'Times New Roman', serif"; g.fillText(s.title, W / 2, y); y += 70;
+    if (s.subtitle) { g.font = "italic 38px Georgia, 'Times New Roman', serif"; g.fillText(s.subtitle, W / 2, y); y += 40; }
+    y += 70;
+    if (s.center) {
+      s.lines.forEach(function (line, i) {
+        g.font = (i === 1 || i === 4) ? "700 50px Georgia, 'Times New Roman', serif" : "38px Georgia, 'Times New Roman', serif";
+        g.fillText(line, W / 2, y); y += (i === 1 || i === 4) ? 96 : 76;
+      });
+      y += 40;
+    } else {
+      g.textAlign = "left";
+      s.rows.forEach(function (r) {
+        g.font = "34px Arial, Helvetica, sans-serif"; g.fillStyle = "#4a5470"; g.fillText(r[0] + ":", 130, y);
+        g.font = "700 40px Arial, Helvetica, sans-serif"; g.fillStyle = "#11162a"; g.fillText(r[1], 130, y + 50);
+        y += 112;
+      });
+      g.textAlign = "center";
+      y += 30;
+    }
+    g.fillStyle = "#1b2133";
+    g.font = "36px Georgia, 'Times New Roman', serif";
+    s.foot.forEach(function (f) { g.fillText(f, W / 2, y); y += 60; });
+    g.save(); g.translate(W - 240, H - 210); g.rotate(-0.18);
+    g.strokeStyle = "#b5332b"; g.fillStyle = "#b5332b"; g.lineWidth = 5;
+    g.strokeRect(-150, -55, 300, 100); g.font = "700 46px Arial, Helvetica, sans-serif"; g.textAlign = "center"; g.fillText(s.mark, 0, 12);
+    g.restore();
+    return c;
+  }
+  function sampleText(s) {
+    var parts = [s.header, s.title, s.subtitle];
+    if (s.center) parts = parts.concat(s.lines); else s.rows.forEach(function (r) { parts.push(r[0] + ": " + r[1]); });
+    return parts.concat(s.foot, [s.mark]).filter(Boolean).join("\n");
+  }
+
+  /* ---------- Pliki ---------- */
+  function loadImageFile(file) {
+    return new Promise(function (res, rej) {
+      var url = URL.createObjectURL(file), img = new Image();
+      img.onload = function () {
+        var max = 2200, sc = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+        var c = document.createElement("canvas");
+        c.width = Math.round(img.naturalWidth * sc); c.height = Math.round(img.naturalHeight * sc);
+        var g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height); g.drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url); res(c);
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); rej(new Error("image")); };
+      img.src = url;
+    });
+  }
+  function pdfReady() {
+    if (typeof window.pdfjsLib === "undefined") return false;
+    try { window.pdfjsLib.GlobalWorkerOptions.workerSrc = abs("lib/pdf.worker.min.js"); } catch (e) { return false; }
+    return true;
+  }
+  function readPdf(file, script) {
+    if (!pdfReady()) return Promise.reject(new Error("pdf-unavailable"));
+    return file.arrayBuffer().then(function (buf) {
+      return window.pdfjsLib.getDocument({ data: buf, isEvalSupported: false }).promise;
+    }).then(function (pdf) {
+      var n = Math.min(pdf.numPages, 8), pages = [];
+      for (var i = 1; i <= n; i++) pages.push(i);
+      var firstCanvas = null;
+      return pages.reduce(function (acc, num) {
+        return acc.then(function (texts) {
+          return pdf.getPage(num).then(function (page) {
+            var job = num === 1 ? renderPage(page, 0.6).then(function (c) { firstCanvas = c; }) : Promise.resolve();
+            return job.then(function () { return page.getTextContent(); }).then(function (tc) {
+              texts.push(tc.items.map(function (it) { return it.str; }).join(" "));
+              return texts;
+            });
+          });
+        });
+      }, Promise.resolve([])).then(function (texts) {
+        var text = texts.join("\n");
+        if (countChars(text) >= 60) return { text: text, conf: null, thumb: firstCanvas, pages: pdf.numPages, via: "pdf" };
+        var m = Math.min(pdf.numPages, 4), out = [];
+        var seq = Promise.resolve();
+        for (var k = 1; k <= m; k++) (function (num) {
+          seq = seq.then(function () {
+            setProgress("Odczytywanie strony " + num + " z " + m, null);
+            return pdf.getPage(num).then(function (page) { return renderPage(page, 2); }).then(function (c) { return ocrImage(c, script); }).then(function (r) { out.push(r.text); });
+          });
+        })(k);
+        return seq.then(function () { return { text: out.join("\n"), conf: null, thumb: firstCanvas, pages: pdf.numPages, via: "ocr" }; });
+      });
+    });
+  }
+  function renderPage(page, scale) {
+    var vp = page.getViewport({ scale: scale }), c = document.createElement("canvas");
+    c.width = Math.ceil(vp.width); c.height = Math.ceil(vp.height);
+    var g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height);
+    return page.render({ canvasContext: g, viewport: vp }).promise.then(function () { return c; });
+  }
+
+  /* ---------- Stan i widok ---------- */
+  var doc = null; // {name, text, chars, lang, type, source}
+  var currentQuote = null;
+  var runId = 0;
+
+  function fillSelect(sel, items, value) {
+    sel.innerHTML = "";
+    items.forEach(function (it) { var o = document.createElement("option"); o.value = it[0]; o.textContent = it[1]; sel.appendChild(o); });
+    if (value) sel.value = value;
+  }
+  fillSelect($("docType"), DOC_TYPES.map(function (d) { return [d.id, d.name]; }).concat([[OTHER.id, OTHER.name]]), OTHER.id);
+  fillSelect($("srcLang"), Object.keys(LANGS).map(function (k) { return [k, LANGS[k]]; }), "de");
+  fillSelect($("tgtLang"), Object.keys(LANGS).map(function (k) { return [k, LANGS[k]]; }), "pl");
+
+  Object.keys(SAMPLES).forEach(function (key) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.textContent = SAMPLES[key].label; b.dataset.sample = key; b.setAttribute("aria-pressed", "false");
+    b.addEventListener("click", function () { runSample(key); });
+    $("samples").appendChild(b);
+  });
+  function markSample(key) {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-sample]"), function (b) { b.setAttribute("aria-pressed", b.dataset.sample === key ? "true" : "false"); });
+  }
+
+  function setProgress(label, p) {
+    $("status").textContent = label + (typeof p === "number" ? " " + Math.round(p * 100) + "%" : "…");
+    $("bar").hidden = false;
+    $("barFill").style.width = (typeof p === "number" ? Math.round(p * 100) : 15) + "%";
+  }
+  function startDoc(name, thumbCanvasOrUrl) {
+    showStage("quote");
+    $("docView").hidden = false;
+    $("docName").textContent = name;
+    $("facts").innerHTML = "";
+    $("ocrAlert").hidden = true;
+    $("textBox").hidden = true;
+    $("textBox").open = false;
+    if (thumbCanvasOrUrl) {
+      $("thumb").src = typeof thumbCanvasOrUrl === "string" ? thumbCanvasOrUrl : thumbCanvasOrUrl.toDataURL("image/jpeg", 0.7);
+      $("thumb").hidden = false;
+    } else { $("thumb").hidden = true; }
+    doc = null; renderQuote();
+  }
+  function finishDoc(name, text, note) {
+    var t = cleanText(text);
+    if (countChars(t) < 15) {
+      $("bar").hidden = true;
+      $("status").textContent = "Nie udało się odczytać tekstu.";
+      $("ocrAlert").hidden = false;
+      $("ocrAlert").textContent = "Zrób zdjęcie w lepszym świetle, wgraj PDF albo wklej tekst. Przy dokumencie po ukraińsku wybierz najpierw cyrylicę.";
+      return;
+    }
+    var type = detectType(t), lang = detectLang(t);
+    doc = { name: name, text: text, chars: countChars(t), lang: lang, type: type.id };
+    $("bar").hidden = true;
+    $("status").textContent = note || "Tekst odczytany.";
+    var facts = [["Rodzaj", type.name], ["Język", LANGS[lang]], ["Znaki ze spacjami", doc.chars.toLocaleString("pl-PL")]];
+    $("facts").innerHTML = "";
+    facts.forEach(function (f) { var s = document.createElement("span"); s.className = "fact"; s.innerHTML = f[0] + ": <b></b>"; s.querySelector("b").textContent = f[1]; $("facts").appendChild(s); });
+    $("ocrText").textContent = text.trim();
+    $("textBox").hidden = false;
+    $("docType").value = type.id;
+    $("srcLang").value = lang;
+    if ($("tgtLang").value === lang) $("tgtLang").value = lang === "pl" ? "de" : "pl";
+    $("detectNote").textContent = "Rozpoznano automatycznie: " + type.name.toLowerCase() + ", język " + LANGS[lang] + ". Możesz to poprawić.";
+    renderQuote();
+  }
+
+  function runSample(key) {
+    var s = SAMPLES[key], my = ++runId;
+    markSample(key);
+    $("srcHint").value = s.script;
+    var canvas = drawSample(s);
+    startDoc(s.name, canvas);
+    setProgress("Przygotowanie", null);
+    ocrImage(canvas, s.script).then(function (r) {
+      if (my !== runId) return;
+      finishDoc(s.name, r.text, "Tekst odczytany ze skanu" + (r.conf ? " (pewność odczytu " + Math.round(r.conf) + "%)." : "."));
+    }).catch(function (e) {
+      if (my !== runId) return;
+      ocrFailed(e);
+      finishDoc(s.name, sampleText(s), "Tekst przykładu wczytany bez odczytu skanu.");
+    });
+  }
+  function ocrFailed(e) {
+    console.warn("OCR niedostępny", e);
+    ocr.failed = true;
+    $("ocrAlert").hidden = false;
+    $("ocrAlert").textContent = "Odczyt skanów nie uruchomił się w tej przeglądarce. Możesz wkleić tekst dokumentu albo otworzyć demo w Chrome lub Edge.";
+  }
+  function runFile(file) {
+    if (!file) return;
+    var my = ++runId; markSample(null);
+    var script = $("srcHint").value;
+    var isPdf = file.type === "application/pdf" || /\.pdf$/i.test(file.name);
+    if (isPdf) {
+      startDoc(file.name, null);
+      setProgress("Czytanie PDF", null);
+      readPdf(file, script).then(function (r) {
+        if (my !== runId) return;
+        if (r.thumb) { $("thumb").src = r.thumb.toDataURL("image/jpeg", 0.7); $("thumb").hidden = false; }
+        finishDoc(file.name, r.text, r.via === "pdf" ? "Tekst odczytany z PDF (" + r.pages + " str. pliku)." : "Tekst odczytany ze skanu w PDF.");
+      }).catch(function (e) {
+        if (my !== runId) return;
+        if (e && e.message === "ocr-unavailable") ocrFailed(e);
+        $("bar").hidden = true; $("status").textContent = "Nie udało się odczytać pliku PDF.";
+        $("ocrAlert").hidden = false; $("ocrAlert").textContent = "Spróbuj zdjęcia dokumentu albo wklej jego tekst.";
+      });
+      return;
+    }
+    if (!/^image\//.test(file.type)) { startDoc(file.name, null); $("status").textContent = "Ten format nie jest obsługiwany. Wgraj JPG, PNG albo PDF."; return; }
+    loadImageFile(file).then(function (canvas) {
+      if (my !== runId) return;
+      startDoc(file.name, canvas);
+      setProgress("Przygotowanie", null);
+      return ocrImage(canvas, script).then(function (r) {
+        if (my !== runId) return;
+        finishDoc(file.name, r.text, "Tekst odczytany ze zdjęcia" + (r.conf ? " (pewność odczytu " + Math.round(r.conf) + "%)." : "."));
+      });
+    }).catch(function (e) {
+      if (my !== runId) return;
+      $("bar").hidden = true;
+      if (e && e.message === "image") { startDoc(file.name, null); $("status").textContent = "Nie udało się wczytać zdjęcia. Spróbuj JPG albo PNG."; return; }
+      ocrFailed(e);
+      $("status").textContent = "Nie udało się odczytać zdjęcia.";
+    });
+  }
+
+  var drop = $("drop");
+  ["dragenter", "dragover"].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add("over"); }); });
+  ["dragleave", "drop"].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove("over"); }); });
+  drop.addEventListener("drop", function (e) { var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; runFile(f); });
+  $("file").addEventListener("change", function (e) { runFile(e.target.files[0]); e.target.value = ""; });
+  $("pasteBtn").addEventListener("click", function () {
+    var t = $("pasteText").value;
+    ++runId; markSample(null);
+    startDoc("Wklejony tekst", null);
+    finishDoc("Wklejony tekst", t, "Tekst wklejony.");
+  });
+
+  ["docType", "srcLang", "tgtLang"].forEach(function (id) { $(id).addEventListener("change", function () { if (doc) { doc.type = $("docType").value; doc.lang = $("srcLang").value; } renderQuote(); }); });
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="kind"],input[name="mode"],input[name="delivery"]'), function (r) { r.addEventListener("change", renderQuote); });
+
+  function opts() {
+    return {
+      kind: document.querySelector('input[name="kind"]:checked').value,
+      mode: document.querySelector('input[name="mode"]:checked').value,
+      delivery: document.querySelector('input[name="delivery"]:checked').value,
+      target: $("tgtLang").value
+    };
+  }
+  var zl = function (v) { return (Math.round(v * 100) / 100).toLocaleString("pl-PL", { minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits: 2 }) + " zł"; };
+
+  function computeQuote(d, o) {
+    var src = d.lang, tgt = o.target;
+    if (src === tgt) return { error: "Wybierz język tłumaczenia inny niż język dokumentu." };
+    var foreign = src === "pl" ? tgt : (tgt === "pl" ? src : null);
+    var sworn = o.kind === "sworn";
+    var perPage = sworn ? 1125 : Math.max(500, Number(prices.regularChars) || 1500);
+    var pages = Math.max(1, Math.ceil(d.chars / perPage));
+    var dl = computeDeadline(new Date(), pages, o);
+    if (!foreign) return { individual: true, pages: pages, perPage: perPage, deadline: dl, sworn: sworn };
+    var rate = Number((sworn ? prices.sworn : prices.regular)[foreign]) || 0;
+    var toForeign = src === "pl";
+    var rateEff = rate * (toForeign ? 1 + (Number(prices.toForeignPct) || 0) / 100 : 1);
+    var lines = [], base;
+    if (sworn && d.type === "pojazd" && pages <= 3) { base = Number(prices.vehicleFlat) || 0; lines.push(["Dokumenty pojazdu, cena stała", base]); }
+    else { base = pages * rateEff; lines.push([pages + " × " + zl(rateEff) + " za stronę" + (toForeign ? " (na język obcy)" : ""), base]); }
+    var total = base;
+    if (o.mode === "express") { var add = base * (Number(prices.expressPct) || 0) / 100; lines.push(["Tryb ekspresowy, +" + prices.expressPct + "%", add]); total += add; }
+    if (o.delivery === "paper") { lines.push(["Wersja papierowa, kurier", Number(prices.courier) || 0]); total += Number(prices.courier) || 0; }
+    return { pages: pages, perPage: perPage, lines: lines, total: Math.round(total), deadline: dl, sworn: sworn, foreign: foreign };
+  }
+
+  function renderQuote() {
+    var empty = !doc;
+    $("quoteEmpty").hidden = !empty;
+    $("quoteBody").hidden = empty;
+    if (empty) { currentQuote = null; return; }
+    var o = opts(), q = computeQuote(doc, o);
+    currentQuote = q;
+    var typeName = (DOC_TYPES.filter(function (t) { return t.id === doc.type; })[0] || OTHER).name;
+    $("qKicker").textContent = q.sworn ? "Tłumaczenie przysięgłe" : "Tłumaczenie zwykłe";
+    $("qTitle").textContent = typeName;
+    $("qPair").textContent = LANGS[doc.lang] + " → " + LANGS[o.target];
+    var tbl = $("qLines"); tbl.innerHTML = "";
+    $("qIndividual").hidden = true;
+    if (q.error) {
+      $("qIndividual").hidden = false; $("qIndividual").textContent = q.error;
+      $("qDeadline").hidden = true; $("qCountNote").textContent = ""; $("orderBtn").disabled = true;
+      return;
+    }
+    var row = function (a, b, cls) { var tr = document.createElement("tr"); if (cls) tr.className = cls; var td1 = document.createElement("td"), td2 = document.createElement("td"); td1.textContent = a; td2.textContent = b; tr.appendChild(td1); tr.appendChild(td2); tbl.appendChild(tr); };
+    row("Znaki ze spacjami", doc.chars.toLocaleString("pl-PL"));
+    row("Strony rozliczeniowe (" + q.perPage.toLocaleString("pl-PL") + " znaków)", String(q.pages));
+    if (q.individual) {
+      $("qIndividual").hidden = false;
+      $("qIndividual").textContent = "Para językowa bez polskiego. Taką wycenę biuro potwierdza osobiście, zwykle tego samego dnia.";
+      $("orderBtn").textContent = "Poproś o wycenę";
+    } else {
+      q.lines.forEach(function (l) { row(l[0], zl(l[1])); });
+      row("Razem brutto", zl(q.total), "sum");
+      $("orderBtn").textContent = "Zamawiam i płacę " + zl(q.total);
+    }
+    $("orderBtn").disabled = false;
+    $("qDeadline").hidden = false;
+    $("qDeadline").innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="2"/></svg><span>Termin: <strong></strong></span>';
+    $("qDeadline").querySelector("strong").textContent = q.deadline.label + ", " + q.deadline.time;
+    $("qCountNote").textContent = q.sworn ? "Tłumaczenie ze skanu z adnotacją tłumacza. Liczba stron jest szacunkowa, ostateczną liczy się z gotowego tłumaczenia." : "Liczba stron jest szacunkowa, ostateczną liczy się z gotowego tłumaczenia.";
+  }
+
+  /* ---------- Zamówienie i płatność ---------- */
+  function showStage(stage) {
+    $("orderForm").hidden = stage !== "quote";
+    $("payForm").hidden = stage !== "pay";
+    $("success").hidden = stage !== "done";
+    ["docType", "srcLang", "tgtLang"].forEach(function (id) { $(id).disabled = stage !== "quote"; });
+  }
+  $("orderForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var email = $("email").value.trim();
+    var ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    $("emailErr").hidden = ok;
+    if (!ok || !currentQuote || currentQuote.error) return;
+    if (currentQuote.individual) { placeOrder(email, false); return; }
+    $("payBtn").textContent = "Zapłać " + zl(currentQuote.total);
+    showStage("pay");
+    $("blik").focus();
+  });
+  $("payBack").addEventListener("click", function () { showStage("quote"); });
+  $("blik").addEventListener("input", function (e) { e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6); });
+  $("payForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var ok = /^\d{6}$/.test($("blik").value);
+    $("blikErr").hidden = ok;
+    if (!ok) return;
+    $("payBtn").disabled = true; $("payBtn").textContent = "Potwierdzanie płatności…";
+    setTimeout(function () { $("payBtn").disabled = false; placeOrder($("email").value.trim(), true); }, 1100);
+  });
+
+  var orders = load("couders-demo-zlecenia-v1", null);
+  if (!Array.isArray(orders)) orders = exampleOrders();
+  function exampleOrders() {
+    var now = new Date();
+    var d1 = computeDeadline(now, 2, { mode: "standard", delivery: "pdf" });
+    var d2 = computeDeadline(now, 1, { mode: "express", delivery: "pdf" });
+    return [
+      { id: "Z-PRZYKLAD-2", example: true, created: new Date(now.getTime() - 3600e3 * 2).toISOString(), typeName: "Dokumenty pojazdu", src: "de", tgt: "pl", kind: "sworn", mode: "express", delivery: "pdf", pages: 1, chars: 812, total: 179, deadline: d2, email: "kupujacy.auto@example.com", status: "work", file: "fahrzeugschein.jpg", text: "Zulassungsbescheinigung Teil I (Fahrzeugschein) ... (przykład)" },
+      { id: "Z-PRZYKLAD-1", example: true, created: new Date(now.getTime() - 3600e3 * 20).toISOString(), typeName: "Akt małżeństwa", src: "en", tgt: "pl", kind: "sworn", mode: "standard", delivery: "pdf", pages: 2, chars: 1630, total: 118, deadline: d1, email: "klientka@example.com", status: "paid", file: "marriage_certificate.pdf", text: "Certificate of Marriage ... (przykład)" }
+    ];
+  }
+  function placeOrder(email, paid) {
+    var now = new Date(), o = opts(), q = currentQuote;
+    var ymd = now.getFullYear() + String(now.getMonth() + 1).padStart(2, "0") + String(now.getDate()).padStart(2, "0");
+    var seq = orders.filter(function (x) { return !x.example; }).length + 1;
+    var order = {
+      id: "Z-" + ymd + "-" + String(seq).padStart(3, "0"), example: false, created: now.toISOString(),
+      typeName: (DOC_TYPES.filter(function (t) { return t.id === doc.type; })[0] || OTHER).name,
+      src: doc.lang, tgt: o.target, kind: o.kind, mode: o.mode, delivery: o.delivery,
+      pages: q.pages, chars: doc.chars, total: q.individual ? null : q.total, deadline: q.deadline, email: email,
+      status: paid ? "paid" : "quote", file: doc.name, text: cleanText(doc.text).slice(0, 1500)
+    };
+    orders.unshift(order); save("couders-demo-zlecenia-v1", orders); renderOrders();
+    $("successTitle").textContent = paid ? "Zapłacono. Zlecenie " + order.id + " przyjęte." : "Prośba o wycenę wysłana do biura.";
+    $("successText").textContent = paid
+      ? "Tłumaczenie przyjdzie na " + email + ". Termin: " + q.deadline.label + ", " + q.deadline.time + "."
+      : "Biuro potwierdzi cenę i termin na " + email + ".";
+    showStage("done");
+  }
+  $("goOffice").addEventListener("click", function () { selectTab("office"); });
+  $("newQuote").addEventListener("click", function () { showStage("quote"); doc = null; $("docView").hidden = true; markSample(null); renderQuote(); window.scrollTo({ top: 0, behavior: "smooth" }); });
+
+  /* ---------- Panel biura ---------- */
+  var STATUS_PILL = { paid: ["paid", "Opłacone"], work: ["work", "W realizacji"], done: ["done", "Wysłane do klienta"], quote: ["", "Do wyceny"] };
+  function renderOrders() {
+    var box = $("orders"); box.innerHTML = "";
+    $("ordersBadge").textContent = String(orders.length);
+    orders.forEach(function (o) {
+      var card = document.createElement("article"); card.className = "card order";
+      var top = document.createElement("div"); top.className = "order-top";
+      var h = document.createElement("h3"); h.textContent = o.typeName + ", " + LANGS[o.src] + " → " + LANGS[o.tgt];
+      var id = document.createElement("span"); id.className = "order-id"; id.textContent = o.id + " · " + fmtStamp.format(new Date(o.created));
+      top.appendChild(h); top.appendChild(id); card.appendChild(top);
+      var pills = document.createElement("div"); pills.className = "pills";
+      var sp = STATUS_PILL[o.status] || STATUS_PILL.paid;
+      var p1 = document.createElement("span"); p1.className = "pill " + sp[0]; p1.textContent = sp[1]; pills.appendChild(p1);
+      var p2 = document.createElement("span"); p2.className = "pill"; p2.textContent = (o.kind === "sworn" ? "Przysięgłe" : "Zwykłe") + (o.mode === "express" ? ", ekspres" : ""); pills.appendChild(p2);
+      if (o.example) { var p3 = document.createElement("span"); p3.className = "pill example"; p3.textContent = "Przykład"; pills.appendChild(p3); }
+      card.appendChild(pills);
+      var kv = document.createElement("div"); kv.className = "kv";
+      var foreign = o.src === "pl" ? o.tgt : o.src;
+      [["Kwota", o.total == null ? "do potwierdzenia" : zl(o.total)], ["Strony", o.pages + " (" + Number(o.chars).toLocaleString("pl-PL") + " znaków)"], ["Termin", o.deadline.label + ", " + o.deadline.time], ["Tłumacz", "j. " + (LANGS_GEN[foreign] || LANGS[foreign])], ["Plik", o.file], ["Klient", o.email]].forEach(function (pair) {
+        var d = document.createElement("div"), s = document.createElement("span"), b = document.createElement("b");
+        s.textContent = pair[0]; b.textContent = pair[1]; d.appendChild(s); d.appendChild(b); kv.appendChild(d);
+      });
+      card.appendChild(kv);
+      var det = document.createElement("details"), sum = document.createElement("summary"), pre = document.createElement("div");
+      sum.textContent = "Tekst odczytany z dokumentu"; pre.className = "ocrtext"; pre.textContent = o.text;
+      det.appendChild(sum); det.appendChild(pre); card.appendChild(det);
+      var act = document.createElement("div"); act.className = "order-actions";
+      var next = { paid: ["work", "Przekaż do tłumacza"], work: ["done", "Oznacz jako wysłane"], quote: ["paid", "Wyślij wycenę klientowi"] }[o.status];
+      if (next) {
+        var b = document.createElement("button"); b.type = "button"; b.className = "btn"; b.textContent = next[1];
+        b.addEventListener("click", function () { o.status = next[0]; save("couders-demo-zlecenia-v1", orders); renderOrders(); });
+        act.appendChild(b);
+      }
+      card.appendChild(act);
+      box.appendChild(card);
+    });
+  }
+
+  function renderPrices() {
+    var tb = $("priceRows"); tb.innerHTML = "";
+    ["en", "de", "uk"].forEach(function (l) {
+      var tr = document.createElement("tr");
+      var td = document.createElement("td"); td.textContent = LANGS[l]; tr.appendChild(td);
+      ["sworn", "regular"].forEach(function (kind) {
+        var c = document.createElement("td"), inp = document.createElement("input");
+        inp.type = "number"; inp.min = "0"; inp.step = "1"; inp.id = "p-" + kind + "-" + l; inp.value = prices[kind][l];
+        inp.setAttribute("aria-label", LANGS[l] + ", " + (kind === "sworn" ? "przysięgłe" : "zwykłe"));
+        inp.addEventListener("input", function () { prices[kind][l] = Number(inp.value) || 0; save("couders-demo-cennik-v1", prices); renderQuote(); });
+        c.appendChild(inp); tr.appendChild(c);
+      });
+      tb.appendChild(tr);
+    });
+    ["regularChars", "toForeignPct", "expressPct", "vehicleFlat", "courier", "pagesPerDay"].forEach(function (k) {
+      var inp = $("c-" + k); inp.value = prices[k];
+      inp.oninput = function () { prices[k] = Number(inp.value) || 0; save("couders-demo-cennik-v1", prices); renderQuote(); };
+    });
+  }
+  $("resetPrices").addEventListener("click", function () {
+    prices = JSON.parse(JSON.stringify(DEFAULT_PRICES)); save("couders-demo-cennik-v1", prices); renderPrices(); renderQuote();
+  });
+
+  /* ---------- Zakładki ---------- */
+  function selectTab(which) {
+    var client = which === "client";
+    $("tab-client").setAttribute("aria-selected", client ? "true" : "false");
+    $("tab-office").setAttribute("aria-selected", client ? "false" : "true");
+    $("view-client").hidden = !client; $("view-office").hidden = client;
+    window.scrollTo({ top: 0 });
+  }
+  $("tab-client").addEventListener("click", function () { selectTab("client"); });
+  $("tab-office").addEventListener("click", function () { selectTab("office"); });
+  if (location.hash === "#biuro") selectTab("office");
+
+  renderPrices(); renderOrders(); renderQuote(); showStage("quote");
+  window.__demo = { computeQuote: computeQuote, computeDeadline: computeDeadline, detectLang: detectLang, detectType: detectType, isWorkingDay: isWorkingDay, ocr: ocr };
+})();
+</script>
+</body>
+</html>
